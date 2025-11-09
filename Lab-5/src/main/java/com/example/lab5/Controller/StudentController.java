@@ -1,6 +1,6 @@
 package com.example.lab5.Controller;
 import java.util.ArrayList;
-
+import com.example.lab5.API.ApiResponse;
 import com.example.lab5.Model.Student;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,25 +15,25 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public String addStudent( @RequestBody Student student){
+    public ApiResponse addStudent(@RequestBody Student student){
         students.add(student);
-        return "The Student Is Added Successfully ! ";
+        return new ApiResponse("The Student Is Added Successfully ! ") ;
     }
 
     @PutMapping("/update/student/{index}")
-    public String updateStudent(@PathVariable int index,@RequestBody Student student){
+    public ApiResponse updateStudent(@PathVariable int index,@RequestBody Student student){
         students.set(index,student);
-        return "The Student Is Updated Successfully !";
+        return new ApiResponse("The Student Is Updated Successfully !") ;
     }
 
     @DeleteMapping("/delete/student/{index}")
-    public String deleteStudent(@PathVariable int index){
+    public ApiResponse deleteStudent(@PathVariable int index){
         students.remove(index);
-        return "Student Is Deleted Successfully !";
+        return new ApiResponse("Student Is Deleted Successfully !") ;
     }
 
     @GetMapping("get/honor")
-    public  String getHonor(){
+    public  ApiResponse getHonor(){
         ArrayList<String> FirstHonor =new ArrayList<>();
         ArrayList<String> SecondHonor =new ArrayList<>();
         for(Student s :students){
@@ -43,12 +43,12 @@ public class StudentController {
                 SecondHonor.add(s.getName());
             }
         }
-        return FirstHonor+" Students are A First Class Honor " +
-                " "+SecondHonor+" Students are A Second Class Honor";
+        return new ApiResponse(FirstHonor+" Students are A First Class Honor " +
+                " "+SecondHonor+" Students are A Second Class Honor") ;
     }
 
     @GetMapping("/get/average")
-    public String getAverage(){
+    public ApiResponse getAverage(){
         double sum=0;
         int count=0;
         double average;
@@ -59,9 +59,9 @@ public class StudentController {
         average=sum/count;
         for(Student stu: students){
             if(stu.getGPA()>average){
-                return " The Student: "+stu.getName()+" Have A GPA Greater Than The Average";
+                return new ApiResponse(" The Student: "+stu.getName()+" Have A GPA Greater Than The Average") ;
             }
         }
-        return " ";
+        return new ApiResponse(" ");
     }
 }
